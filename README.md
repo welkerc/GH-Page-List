@@ -4,26 +4,19 @@ A webapp that finds all GitHub Pages sites for any GitHub username.
 
 ## Features
 
-- **My Pages tab**: Automatically shows GitHub Pages for the configured owner
+- **My Pages tab**: Automatically shows GitHub Pages based on where it's deployed
 - **Search tab**: Search for any GitHub username's pages
 
-## Configuration
+## How It Works
 
-Edit `script.js` and set the owner username:
-
-```javascript
-const config = {
-    owner: 'YOUR_GITHUB_USERNAME'
-};
-```
-
-Replace `YOUR_GITHUB_USERNAME` with your actual GitHub username.
+The owner is automatically detected from the GitHub Pages URL:
+- `username.github.io/repo` → detects `username`
 
 ## Usage
 
 **My Pages (default):**
 - Loads automatically on page load
-- Shows all GitHub Pages sites for the configured owner
+- Shows all GitHub Pages sites for the deployment owner
 
 **Search:**
 - Click the "Search" tab
@@ -32,15 +25,15 @@ Replace `YOUR_GITHUB_USERNAME` with your actual GitHub username.
 
 ## Deployment
 
-1. Edit `script.js` with your GitHub username
-2. Push to a GitHub repository
-3. Enable GitHub Pages in Settings → Pages
+1. Push to a GitHub repository
+2. Enable GitHub Pages in Settings → Pages
+3. Done! Owner is auto-detected
 
 ## Files
 
 - `index.html` - Main page structure
 - `styles.css` - GitHub-style dark theme
-- `script.js` - GitHub API integration + config
+- `script.js` - GitHub API integration + auto-detect
 - `.nojekyll` - Prevents Jekyll processing
 
 ## Limitations

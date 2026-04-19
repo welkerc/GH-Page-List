@@ -1,5 +1,14 @@
+function getOwnerFromUrl() {
+    const hostname = window.location.hostname;
+    const parts = hostname.split('.');
+    if (parts.length >= 2 && parts[parts.length - 2] !== 'github') {
+        return parts[0];
+    }
+    return parts[0];
+}
+
 const config = {
-    owner: 'YOUR_GITHUB_USERNAME'
+    owner: getOwnerFromUrl()
 };
 
 const tabs = document.querySelectorAll('.tab');
@@ -36,10 +45,10 @@ usernameInput.addEventListener('keypress', (e) => {
 });
 
 async function init() {
-    if (config.owner && config.owner !== 'YOUR_GITHUB_USERNAME') {
+    if (config.owner) {
         await loadOwnerPages();
     } else {
-        showOwnerError('Owner not configured');
+        showOwnerError('Could not detect owner from URL');
     }
 }
 
