@@ -7,27 +7,48 @@ A webapp that finds all GitHub Pages sites for any GitHub username.
 - **My Pages tab**: Automatically shows GitHub Pages based on where it's deployed
 - **Search tab**: Search for any GitHub username's pages
 
-## How It Works
+## Quick Start
 
-The owner is automatically detected from the GitHub Pages URL:
-- `username.github.io/repo` → detects `username`
+### Option 1: Use as a Template
+
+1. Click "Use this template" on the [GitHub repository](https://github.com/cwelker/GH-Page-List)
+2. Name your repository (e.g., `my-pages`)
+3. Go to Settings → Pages
+4. Select the `main` branch and click Save
+5. Your page will be live at `username.github.io/my-pages`
+
+### Option 2: Add to Existing Repo
+
+1. Copy these files to your repo:
+   - `index.html`
+   - `styles.css`
+   - `script.js`
+   - `.nojekyll`
+2. Enable GitHub Pages in Settings → Pages
+3. Select source and save
 
 ## Usage
 
 **My Pages (default):**
-- Loads automatically on page load
-- Shows all GitHub Pages sites for the deployment owner
+- Enter your GitHub username and click "Load My Pages"
+- Or deploy to GitHub Pages for auto-detection
 
 **Search:**
 - Click the "Search" tab
 - Enter any GitHub username
 - Click "Find Pages" or press Enter
 
-## Deployment
+## Local Development
 
-1. Push to a GitHub repository
-2. Enable GitHub Pages in Settings → Pages
-3. Done! Owner is auto-detected
+```bash
+# Clone your repo
+git clone https://github.com/YOUR_USERNAME/YOUR_REPO.git
+cd YOUR_REPO
+
+# Open in browser (or use any static server)
+# Just open index.html in a browser
+# Note: API calls may not work due to CORS locally
+```
 
 ## Files
 

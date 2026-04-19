@@ -1,7 +1,6 @@
 function getOwnerFromUrl() {
     const hostname = window.location.hostname;
     if (hostname === 'localhost' || hostname === '127.0.0.1') {
-        console.log('Running locally - manually set owner in script.js or deploy to GitHub Pages');
         return null;
     }
     const pathMatch = window.location.pathname.match(/^\/([^\/]+)/);
@@ -13,6 +12,25 @@ function getOwnerFromUrl() {
         return parts[0];
     }
     return null;
+}
+
+function getRepoFromUrl() {
+    const pathMatch = window.location.pathname.match(/^\/([^\/]+)/);
+    if (pathMatch) {
+        return pathMatch[1];
+    }
+    return null;
+}
+
+function initFooter() {
+    const owner = getOwnerFromUrl();
+    const repo = getRepoFromUrl();
+    const repoLink = document.getElementById('repo-link');
+    if (owner && repo) {
+        repoLink.href = `https://github.com/${owner}/${repo}`;
+    } else if (owner) {
+        repoLink.href = `https://github.com/${owner}`;
+    }
 }
 
 const config = {
@@ -61,6 +79,7 @@ usernameInput.addEventListener('keypress', (e) => {
 });
 
 async function init() {
+    initFooter();
     if (config.owner) {
         ownerInput.value = config.owner;
         reloadOwnerPages();
