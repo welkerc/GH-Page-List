@@ -1,3 +1,19 @@
+const config = {
+    owner: 'YOUR_GITHUB_USERNAME'
+};
+
+const tabs = document.querySelectorAll('.tab');
+const tabContents = document.querySelectorAll('.tab-content');
+
+tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+        tabs.forEach(t => t.classList.remove('active'));
+        tabContents.forEach(tc => tc.classList.remove('active'));
+        tab.classList.add('active');
+        document.getElementById(tab.dataset.tab).classList.add('active');
+    });
+});
+
 const usernameInput = document.getElementById('username');
 const searchBtn = document.getElementById('search-btn');
 const loadingEl = document.getElementById('loading');
@@ -7,10 +23,35 @@ const resultsTitle = document.getElementById('results-title');
 const resultsCount = document.getElementById('results-count');
 const pagesList = document.getElementById('pages-list');
 
+const loadingOwner = document.getElementById('loading-owner');
+const errorOwner = document.getElementById('error-owner');
+const resultsOwner = document.getElementById('results-owner');
+const ownerTitle = document.getElementById('owner-title');
+const ownerCount = document.getElementById('owner-count');
+const pagesListOwner = document.getElementById('pages-list-owner');
+
 searchBtn.addEventListener('click', handleSearch);
 usernameInput.addEventListener('keypress', (e) => {
     if (e.key === 'Enter') handleSearch();
 });
+
+async function init() {
+    if (config.owner && config.owner !== 'YOUR_GITHUB_USERNAME') {
+        await loadOwnerPages();
+    } else {
+        showOwnerError('Owner not configured');
+    }
+}
+
+async function loadOwnerPages() {
+    showOwnerLoading();
+    try {
+        const pages = await findGitHubPages(config.owner);
+        showOwnerResults(pages);
+    } catch (error) {
+        showOwnerError(error.message);
+    }
+}
 
 async function handleSearch() {
     const username = usernameInput.value.trim();
@@ -48,7 +89,6 @@ async function findGitHubPages(username) {
 
         for (const repo of repos) {
             if (repo.has_pages) {
-                const domain = repo.html_url.replace('github.com', 'github.io');
                 pages.push({
                     name: repo.name,
                     url: `https://${username}.github.io/${repo.name}`,
@@ -136,10 +176,60 @@ function hideResults() {
     resultsEl.classList.add('hidden');
 }
 
+function showOwnerLoading() {
+    loadingOwner.classList.remove('hidden');
+}
+
+function hideOwnerLoading() {
+    loadingOwner.classList.add('hidden');
+}
+
+function showOwnerError(message) {
+    errorOwner.textContent = message;
+    errorOwner.classList.remove('hidden');
+}
+
+function hideOwnerError() {
+    errorOwner.classList.add('hidden');
+}
+
+function showOwnerResults(pages) {
+    hideOwnerLoading();
+    hideOwnerError();
+    ownerTitle.textContent = config.owner;
+    ownerCount.textContent = pages.length;
+
+    if (pages.length === 0) {
+        pagesListOwner.innerHTML = `
+            <div class="empty-state">
+                <p>No GitHub Pages sites found.</p>
+            </div>
+        `;
+    } else {
+        pagesListOwner.innerHTML = pages.map(page => `
+            <div class="page-item">
+                <div class="page-info">
+                    <a href="${page.url}" target="_blank" rel="noopener noreferrer" class="page-name">
+                        ${escapeHtml(page.name)}
+                    </a>
+                    <span class="page-url">${escapeHtml(page.url)}</span>
+                    ${page.description ? `<span class="page-description">${escapeHtml(page.description)}</span>` : ''}
+                </div>
+                <div class="page-status">
+                    <span class="status-dot"></span>
+                    <span>Active</span>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    resultsOwner.classList.remove('hidden');
+}
+
 function escapeHtml(text) {
     const div = document.createElement('div');
     div.textContent = text;
     return div.innerHTML;
 }
 
-usernameInput.focus();
+init();

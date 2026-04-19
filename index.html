@@ -18,27 +18,50 @@
         </header>
 
         <main class="main">
-            <div class="search-box">
-                <div class="input-group">
-                    <span class="input-prefix">github.com/</span>
-                    <input type="text" id="username" placeholder="Enter username" autocomplete="off">
+            <nav class="tabs">
+                <button class="tab active" data-tab="my-pages">My Pages</button>
+                <button class="tab" data-tab="search">Search</button>
+            </nav>
+
+            <div class="tab-content active" id="my-pages">
+                <p class="tab-description">View GitHub Pages sites for this deployment's owner</p>
+                <div id="loading-owner" class="loading hidden">
+                    <div class="spinner"></div>
+                    <span>Loading...</span>
                 </div>
-                <button id="search-btn">Find Pages</button>
+                <div id="error-owner" class="error hidden"></div>
+                <div id="results-owner" class="results hidden">
+                    <div class="results-header">
+                        <h2 id="owner-title"></h2>
+                        <span id="owner-count" class="count-badge"></span>
+                    </div>
+                    <div id="pages-list-owner" class="pages-list"></div>
+                </div>
             </div>
 
-            <div id="loading" class="loading hidden">
-                <div class="spinner"></div>
-                <span>Loading...</span>
-            </div>
-
-            <div id="error" class="error hidden"></div>
-
-            <div id="results" class="results hidden">
-                <div class="results-header">
-                    <h2 id="results-title"></h2>
-                    <span id="results-count" class="count-badge"></span>
+            <div class="tab-content" id="search">
+                <div class="search-box">
+                    <div class="input-group">
+                        <span class="input-prefix">github.com/</span>
+                        <input type="text" id="username" placeholder="Enter username" autocomplete="off">
+                    </div>
+                    <button id="search-btn">Find Pages</button>
                 </div>
-                <div id="pages-list" class="pages-list"></div>
+
+                <div id="loading" class="loading hidden">
+                    <div class="spinner"></div>
+                    <span>Loading...</span>
+                </div>
+
+                <div id="error" class="error hidden"></div>
+
+                <div id="results" class="results hidden">
+                    <div class="results-header">
+                        <h2 id="results-title"></h2>
+                        <span id="results-count" class="count-badge"></span>
+                    </div>
+                    <div id="pages-list" class="pages-list"></div>
+                </div>
             </div>
         </main>
 
