@@ -327,6 +327,31 @@ input[type="text"]::placeholder {
     text-decoration: underline;
 }
 
+.github-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: var(--color-bg-tertiary);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    color: var(--color-text-primary);
+    font-size: 0.875rem;
+    text-decoration: none;
+    transition: background-color 0.2s, border-color 0.2s;
+}
+
+.github-btn:hover {
+    background: var(--color-bg-secondary);
+    border-color: var(--color-text-secondary);
+    text-decoration: none;
+}
+
+.github-btn svg {
+    width: 1rem;
+    height: 1rem;
+}
+
 .footer p {
     display: flex;
     align-items: center;
