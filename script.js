@@ -1,10 +1,18 @@
 function getOwnerFromUrl() {
     const hostname = window.location.hostname;
+    if (hostname === 'localhost' || hostname === '127.0.0.1') {
+        console.log('Running locally - manually set owner in script.js or deploy to GitHub Pages');
+        return null;
+    }
+    const pathMatch = window.location.pathname.match(/^\/([^\/]+)/);
+    if (pathMatch) {
+        return pathMatch[1];
+    }
     const parts = hostname.split('.');
-    if (parts.length >= 2 && parts[parts.length - 2] !== 'github') {
+    if (parts.length >= 3 && parts[0] !== 'www') {
         return parts[0];
     }
-    return parts[0];
+    return null;
 }
 
 const config = {
@@ -38,6 +46,14 @@ const resultsOwner = document.getElementById('results-owner');
 const ownerTitle = document.getElementById('owner-title');
 const ownerCount = document.getElementById('owner-count');
 const pagesListOwner = document.getElementById('pages-list-owner');
+const ownerInput = document.getElementById('owner-username');
+const loadOwnerBtn = document.getElementById('load-owner-btn');
+const ownerInputDiv = document.getElementById('owner-input');
+
+loadOwnerBtn.addEventListener('click', reloadOwnerPages);
+ownerInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') reloadOwnerPages();
+});
 
 searchBtn.addEventListener('click', handleSearch);
 usernameInput.addEventListener('keypress', (e) => {
@@ -46,13 +62,14 @@ usernameInput.addEventListener('keypress', (e) => {
 
 async function init() {
     if (config.owner) {
-        await loadOwnerPages();
-    } else {
-        showOwnerError('Could not detect owner from URL');
+        ownerInput.value = config.owner;
+        reloadOwnerPages();
     }
+    ownerInput.focus();
 }
 
 async function loadOwnerPages() {
+    if (!config.owner) return;
     showOwnerLoading();
     try {
         const pages = await findGitHubPages(config.owner);
@@ -60,6 +77,13 @@ async function loadOwnerPages() {
     } catch (error) {
         showOwnerError(error.message);
     }
+}
+
+function reloadOwnerPages() {
+    config.owner = ownerInput.value.trim();
+    hideOwnerError();
+    hideOwnerResults();
+    loadOwnerPages();
 }
 
 async function handleSearch() {
@@ -200,6 +224,10 @@ function showOwnerError(message) {
 
 function hideOwnerError() {
     errorOwner.classList.add('hidden');
+}
+
+function hideOwnerResults() {
+    resultsOwner.classList.add('hidden');
 }
 
 function showOwnerResults(pages) {

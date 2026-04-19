@@ -25,6 +25,13 @@
 
             <div class="tab-content active" id="my-pages">
                 <p class="tab-description">View GitHub Pages sites for this deployment's owner</p>
+                <div id="owner-input" class="search-box">
+                    <div class="input-group">
+                        <span class="input-prefix">github.com/</span>
+                        <input type="text" id="owner-username" placeholder="Enter your username" autocomplete="off">
+                    </div>
+                    <button id="load-owner-btn">Load My Pages</button>
+                </div>
                 <div id="loading-owner" class="loading hidden">
                     <div class="spinner"></div>
                     <span>Loading...</span>
