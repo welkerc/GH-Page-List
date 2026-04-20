@@ -3,13 +3,13 @@ function getOwnerFromUrl() {
     if (hostname === 'localhost' || hostname === '127.0.0.1') {
         return null;
     }
-    const pathMatch = window.location.pathname.match(/^\/([^\/]+)/);
-    if (pathMatch) {
-        return pathMatch[1];
-    }
     const parts = hostname.split('.');
     if (parts.length >= 3 && parts[0] !== 'www') {
         return parts[0];
+    }
+    const pathMatch = window.location.pathname.match(/^\/([^\/]+)/);
+    if (pathMatch) {
+        return pathMatch[1];
     }
     return null;
 }

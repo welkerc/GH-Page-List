@@ -175,6 +175,22 @@ input[type="text"]::placeholder {
     cursor: not-allowed;
 }
 
+#load-owner-btn {
+    padding: 0.625rem 1.25rem;
+    background: var(--color-success);
+    color: #fff;
+    border: 1px solid rgba(240, 246, 252, 0.1);
+    border-radius: var(--radius);
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+#load-owner-btn:hover {
+    background: #2ea043;
+}
+
 .hidden {
     display: none !important;
 }
