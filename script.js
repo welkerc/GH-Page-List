@@ -26,10 +26,12 @@ function initFooter() {
     const owner = getOwnerFromUrl();
     const repo = getRepoFromUrl();
     const repoLink = document.getElementById('repo-link');
-    if (owner && repo) {
-        repoLink.href = `https://github.com/${owner}/${repo}`;
-    } else if (owner) {
-        repoLink.href = `https://github.com/${owner}`;
+    if (repoLink) {
+        if (owner && repo) {
+            repoLink.href = `https://github.com/${owner}/${repo}`;
+        } else if (owner) {
+            repoLink.href = `https://github.com/${owner}`;
+        }
     }
 }
 
